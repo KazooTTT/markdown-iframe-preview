@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { LegacyRef } from "react";
 import Markdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import rehypeRaw from "rehype-raw";
@@ -63,10 +63,16 @@ sayHello();
         rehypePlugins={[rehypeRaw, remarkGfm]}
         components={{
           code(props) {
-            const { children, className, node, ...rest } = props;
+            const { children, className, node, ref, style, ...rest } = props;
             const match = /language-(\w+)/.exec(className || "");
             return match ? (
-              <SyntaxHighlighter {...rest} PreTag="div" language={match[1]}>
+              <SyntaxHighlighter
+                {...rest}
+                style={style as { [key: string]: React.CSSProperties }}
+                ref={ref as LegacyRef<SyntaxHighlighter>}
+                PreTag="div"
+                language={match[1]}
+              >
                 {String(children).replace(/\n$/, "")}
               </SyntaxHighlighter>
             ) : (
