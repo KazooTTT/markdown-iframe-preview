@@ -54,6 +54,15 @@ sayHello();
 ### Iframe
 
 <iframe src="http://localhost:3000" width="100%" height="500"></iframe>
+
+
+### external link
+[external link](http://localhost:3000)
+
+
+### special link
+[special link](http://localhost:3000/agent/special)
+
 `;
 
   return (
@@ -79,6 +88,20 @@ sayHello();
               <code {...rest} className={className}>
                 {children}
               </code>
+            );
+          },
+          a(props) {
+            const { href, children } = props;
+            if (href && href.indexOf("/agent/special") != -1) {
+              return (
+                <iframe src={href} width="100%" height="500" allowFullScreen />
+              );
+            }
+            // 否则,渲染为普通的 <a> 链接
+            return (
+              <a href={href} target="_blank" rel="noopener noreferrer">
+                {children}
+              </a>
             );
           },
         }}
